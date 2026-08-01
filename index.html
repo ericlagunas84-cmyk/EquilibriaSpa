@@ -136,6 +136,15 @@
   .reveal-group.in > * { transition-delay: calc(var(--i,0) * 100ms); }
   .hero-img { animation: heroZoom 18s ease-in-out infinite alternate; }
   @keyframes heroZoom { from{ transform: scale(1);} to{ transform: scale(1.08);} }
+  /* Fix mobile "jump" caused by vh recalculating when the address bar hides/shows on scroll */
+  .hero-viewport {
+    height: 86vh;
+    height: 86svh; /* stable viewport height on mobile browsers */
+    min-height: 560px;
+  }
+  @media (max-width: 767px) {
+    .hero-viewport { height: 78vh; height: 78svh; min-height: 480px; }
+  }
   .grayscale-hover { filter: grayscale(1); transition: filter 1s ease; }
   .grayscale-hover:hover { filter: grayscale(0); }
   @media (prefers-reduced-motion: reduce){
@@ -196,7 +205,7 @@
 
   <!-- ============ HERO ============ -->
   <section id="inicio" class="relative fade-in mb-section-gap overflow-hidden">
-    <div class="relative h-[86vh] min-h-[560px] w-full overflow-hidden" id="heroSlider">
+    <div class="relative hero-viewport w-full overflow-hidden" id="heroSlider">
       <div class="hero-slide absolute inset-0 w-full h-full opacity-100 transition-opacity duration-[1500ms]" data-slide="0">
         <img src="https://images.unsplash.com/photo-1639162906614-0603b0ae95fd?fm=jpg&q=80&w=2000&auto=format&fit=crop" alt="Masaje relajante en pareja en Equilibria Grand Relax Spa" class="hero-img w-full h-full object-cover">
       </div>
@@ -290,7 +299,7 @@
         <p class="font-body-md text-on-surface-variant flex-1">Masaje relajante especial, compresas herbales en espalda, masaje descansa pies y facial craneal, copas de sangría con cheesecake, aromaterapia y musicoterapia.</p>
         <div class="flex items-end justify-between border-t border-outline-variant/30 pt-4">
           <div><span class="font-headline-sm text-headline-sm text-primary">$1,099</span><span class="block font-label-sm uppercase opacity-60">MXN por persona</span></div>
-          <a href="https://wa.me/526566452338" target="_blank" rel="noopener" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></a>
+          <button type="button" onclick="selectPackageAndScroll(&quot;Contigo Aprendí — $1,099&quot;)" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></button>
         </div>
       </div>
 
@@ -300,7 +309,7 @@
         <p class="font-body-md text-on-surface-variant flex-1">Masaje extendido relajante, antiestrés y de tejido profundo, masaje descansa pies y facial craneal, copas de sangría con cheesecake, aromaterapia y musicoterapia.</p>
         <div class="flex items-end justify-between border-t border-outline-variant/30 pt-4">
           <div><span class="font-headline-sm text-headline-sm text-primary">$1,599</span><span class="block font-label-sm uppercase opacity-60">MXN por persona</span></div>
-          <a href="https://wa.me/526566452338" target="_blank" rel="noopener" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></a>
+          <button type="button" onclick="selectPackageAndScroll(&quot;Mi Razón de Ser — $1,599&quot;)" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></button>
         </div>
       </div>
 
@@ -310,7 +319,7 @@
         <p class="font-body-md text-on-surface-variant flex-1">Masaje antiestrés y especial a cuatro manos, tratamiento facial (o exfoliación e hidratación de espalda y pies), copas de cléricot con cheesecake de frutos rojos.</p>
         <div class="flex items-end justify-between border-t border-outline-variant/30 pt-4">
           <div><span class="font-headline-sm text-headline-sm text-primary">$1,899</span><span class="block font-label-sm uppercase opacity-60">MXN por persona</span></div>
-          <a href="https://wa.me/526566452338" target="_blank" rel="noopener" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></a>
+          <button type="button" onclick="selectPackageAndScroll(&quot;Tan Enamorados — $1,899&quot;)" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></button>
         </div>
       </div>
 
@@ -321,7 +330,7 @@
         <p class="font-body-md text-on-surface-variant flex-1">Hidrojacuzzi, masaje antiestrés con lavanda, masaje de pies cansados, copas de cléricot con cheesecake y ambientación relajante.</p>
         <div class="flex items-end justify-between border-t border-outline-variant/30 pt-4">
           <div><span class="font-headline-sm text-headline-sm text-primary">$1,999</span><span class="block font-label-sm uppercase opacity-60">MXN por persona</span></div>
-          <a href="https://wa.me/526566452338" target="_blank" rel="noopener" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></a>
+          <button type="button" onclick="selectPackageAndScroll(&quot;Me Cambiaste la Vida (Premium) — $1,999&quot;)" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></button>
         </div>
       </div>
 
@@ -332,7 +341,7 @@
         <p class="font-body-md text-on-surface-variant flex-1">Hidrojacuzzi con esencias, masaje de descanso profundo con bálsamo de seda, humectación de pies y espalda, exfoliación y mascarilla facial, botella de cléricot, charcutería y fruta.</p>
         <div class="flex items-end justify-between border-t border-outline-variant/30 pt-4">
           <div><span class="font-headline-sm text-headline-sm text-primary">$2,699</span><span class="block font-label-sm uppercase opacity-60">MXN por persona</span></div>
-          <a href="https://wa.me/526566452338" target="_blank" rel="noopener" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></a>
+          <button type="button" onclick="selectPackageAndScroll(&quot;Bésame Mucho (Luxury) — $2,699&quot;)" class="bg-primary text-on-primary text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></button>
         </div>
       </div>
 
@@ -343,7 +352,7 @@
         <p class="font-body-md text-primary-fixed/80 flex-1">Hidrojacuzzi con pétalos, exfoliación de espalda y pies, masaje de lujo con bálsamo, facial completo y masaje a cuatro manos, vino espumoso, charcutería y marquesina con nombres y frase.</p>
         <div class="flex items-end justify-between border-t border-primary-fixed/20 pt-4">
           <div><span class="font-headline-sm text-headline-sm text-tertiary-fixed">$2,999</span><span class="block font-label-sm uppercase opacity-70">MXN por persona</span></div>
-          <a href="https://wa.me/526566452338" target="_blank" rel="noopener" class="bg-tertiary-fixed text-on-tertiary-fixed text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></a>
+          <button type="button" onclick="selectPackageAndScroll(&quot;Romance de Lujo (Exclusive) — $2,999&quot;)" class="bg-tertiary-fixed text-on-tertiary-fixed text-[11px] font-label-sm uppercase tracking-widest px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity flex items-center gap-1.5">Reservar<span class="material-symbols-outlined text-[14px]">arrow_forward</span></button>
         </div>
       </div>
 
@@ -768,21 +777,54 @@
 </div>
 
 <script>
-  // Simple Interaction for form
+  // Select a package from a card and jump to the contact form
+  function selectPackageAndScroll(value) {
+    const select = document.getElementById('package');
+    select.value = value;
+    document.getElementById('contacto').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => {
+      const name = document.getElementById('name');
+      if (name) name.focus({ preventScroll: true });
+    }, 700);
+  }
+
+  // Contact form -> builds the message and sends everything via WhatsApp
   const form = document.getElementById('contactForm');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const btn = e.target.querySelector('button');
+    const btn = e.target.querySelector('button[type="submit"]');
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
     const pkg = document.getElementById('package').value;
     const date = document.getElementById('visitDate').value;
-    btn.innerText = 'ENVIANDO...';
+    const message = document.getElementById('message').value.trim();
+
+    const lines = ['Hola, me gustaría reservar en Equilibria Grand Relax Spa.'];
+    if (name) lines.push('Nombre: ' + name);
+    if (email) lines.push('Correo: ' + email);
+    lines.push('Paquete de interés: ' + (pkg || 'Aún no decido'));
+    if (date) lines.push('Fecha deseada: ' + date);
+    if (message) lines.push('Mensaje: ' + message);
+
+    const waText = encodeURIComponent(lines.join('\n'));
+    const waUrl = 'https://wa.me/526566452338?text=' + waText;
+
+    const originalText = btn.innerText;
+    btn.innerText = 'ABRIENDO WHATSAPP...';
     btn.disabled = true;
+    window.open(waUrl, '_blank');
     setTimeout(() => {
-      btn.innerText = '¡GRACIAS POR ESCRIBIR!';
+      btn.innerText = '¡LISTO! REVISE WHATSAPP';
       btn.classList.remove('bg-primary');
       btn.classList.add('bg-on-primary-fixed-variant');
       form.reset();
-    }, 1500);
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.disabled = false;
+        btn.classList.add('bg-primary');
+        btn.classList.remove('bg-on-primary-fixed-variant');
+      }, 3000);
+    }, 800);
   });
 
   // Hero image slider
