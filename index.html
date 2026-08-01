@@ -136,14 +136,20 @@
   .reveal-group.in > * { transition-delay: calc(var(--i,0) * 100ms); }
   .hero-img { animation: heroZoom 18s ease-in-out infinite alternate; }
   @keyframes heroZoom { from{ transform: scale(1);} to{ transform: scale(1.08);} }
-  /* Fix mobile "jump" caused by vh recalculating when the address bar hides/shows on scroll */
+  /* Fix mobile "jump": height is set once in px by JS (--hero-vh) and never
+     recalculated on scroll, so it can't jump when the address bar hides/shows.
+     svh is kept only as a fallback for the instant before JS runs. */
   .hero-viewport {
-    height: 86vh;
-    height: 86svh; /* stable viewport height on mobile browsers */
+    height: 86svh;
+    height: calc(var(--hero-vh, 1svh) * 86);
     min-height: 560px;
   }
   @media (max-width: 767px) {
-    .hero-viewport { height: 78vh; height: 78svh; min-height: 480px; }
+    .hero-viewport {
+      height: 78svh;
+      height: calc(var(--hero-vh, 1svh) * 78);
+      min-height: 480px;
+    }
   }
   .grayscale-hover { filter: grayscale(1); transition: filter 1s ease; }
   .grayscale-hover:hover { filter: grayscale(0); }
@@ -777,6 +783,16 @@
 </div>
 
 <script>
+  // Lock the hero height in real pixels ONCE (and on real orientation changes only).
+  // This is what actually fixes the mobile "jump": we stop depending on vh/svh being
+  // recalculated by the browser every time the address bar shows/hides while scrolling.
+  function setHeroVH() {
+    document.documentElement.style.setProperty('--hero-vh', (window.innerHeight * 0.01) + 'px');
+  }
+  setHeroVH();
+  window.addEventListener('orientationchange', () => setTimeout(setHeroVH, 250));
+  window.addEventListener('pageshow', setHeroVH);
+
   // Select a package from a card and jump to the contact form
   function selectPackageAndScroll(value) {
     const select = document.getElementById('package');
